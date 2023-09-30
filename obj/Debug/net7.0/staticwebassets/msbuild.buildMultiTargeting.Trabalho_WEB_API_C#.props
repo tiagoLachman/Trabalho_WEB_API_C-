@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Trabalho_WEB_API_C#.props" />
+</Project>
