@@ -5,45 +5,95 @@ public class EspecialidadeRoutes
 
     public static void CreateRoutes(WebApplication app)
     {
-        //listar todos as especialidades
-        app.MapGet("/especialidades", (BaseDeDados BaseDeDados) =>
+        //listar todos os especialidades
+        app.MapGet("/especialidades", (HttpContext context, BaseDeDados BaseDeDados) =>
     {
-        return BaseDeDados.Especialidades.ToList();
+        try
+        {
+            var especialidades = BaseDeDados.Especialidades.ToList();
+
+            return EndPointReturn.Retornar(context, especialidades);
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
     });
 
         //listar especialidade especifico (por email)
-        app.MapGet("/especialidade/{id}", (BaseDeDados BaseDeDados, int id) =>
+        app.MapGet("/especialidade/{id}", (HttpContext context, BaseDeDados BaseDeDados, int id) =>
     {
-        return BaseDeDados.Especialidades.Find(id);
+        try
+        {
+            var especialidade = BaseDeDados.Especialidades.Find(id);
+            if (especialidade == null)
+            {
+                return EndPointReturn.Retornar(context, "Especialidade não encontrada", 404);
+            }
+
+            return EndPointReturn.Retornar(context, especialidade, 404);
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
     });
 
         //cadastrar especialidade
-        app.MapPost("/especialidade", (BaseDeDados BaseDeDados, Especialidade especialidade) =>
+        app.MapPost("/especialidade", (HttpContext context, BaseDeDados BaseDeDados, Especialidade especialidade) =>
     {
-        BaseDeDados.Especialidades.Add(especialidade);
-        BaseDeDados.SaveChanges();
-        return "especialidade adicionada";
+        try
+        {
+            BaseDeDados.Especialidades.Add(especialidade);
+            BaseDeDados.SaveChanges();
+            especialidade = BaseDeDados.Especialidades.Find(especialidade.id);
+            return EndPointReturn.Retornar(context, "Especialidade cadastrada");
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
     });
 
         //atualizar especialidade
-        app.MapPut("/especialidade/{id}", (BaseDeDados BaseDeDados, Especialidade especialidadeAtualizado, int id) =>
+        app.MapPut("/especialidade/{id}", (HttpContext context, BaseDeDados BaseDeDados, Especialidade especialidadeAtualizado, int id) =>
     {
-        var especialidade = BaseDeDados.Especialidades.Find(id);
-        especialidade.nome = especialidadeAtualizado.nome;
-        BaseDeDados.SaveChanges();
-        return "especialidade atualizada";
+        try
+        {
+            var especialidade = BaseDeDados.Especialidades.Find(id);
+            if (especialidade == null)
+            {
+                return EndPointReturn.Retornar(context, "Especialidade não encontrada", 404);
+            }
+            especialidade.nome = especialidadeAtualizado.nome;
+            BaseDeDados.SaveChanges();
+
+            return EndPointReturn.Retornar(context, "Especialidade atualizada");
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
     });
 
         //deletar especialidade
-        app.MapDelete("/especialidade/{id}", (BaseDeDados BaseDeDados, int id) =>
+        app.MapDelete("/especialidade/{id}", (HttpContext context, BaseDeDados BaseDeDados, int id) =>
     {
-        var especialidade = BaseDeDados.Especialidades.Find(id);
-        BaseDeDados.Remove(especialidade);
-        BaseDeDados.SaveChanges();
-        return "especialidade deletada";
+        try
+        {
+            var especialidade = BaseDeDados.Especialidades.Find(id);
+            if (especialidade == null)
+            {
+                return EndPointReturn.Retornar(context, "Especialidade não encontrada", 404);
+            }
+            BaseDeDados.Remove(especialidade);
+            BaseDeDados.SaveChanges();
+            return EndPointReturn.Retornar(context, "Especialidade deletada com sucesso");
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
     });
-
-        //------------------------------
-
     }
 }

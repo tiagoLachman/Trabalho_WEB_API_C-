@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EINbRgCovKtrrinG6jHylZKfKX3wLwYrlVsL+sctQcWaAhKxWq4y1odmP6c1I0THZxG+ofvOEmPVPLBf1QktCQ==",
+  "dgSpecHash": "/3VgKiJbzLULPCYtzaavhqBuXwwUi8aUXSxkKdED6Qm+Rruhm/kiYr3FBAcYIpIX6lWlngSoHJqbGbO87u+V6g==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj",
+  "projectFilePath": "C:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tiago\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Tiago\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.11\\microsoft.aspnetcore.openapi.7.0.11.nupkg.sha512",

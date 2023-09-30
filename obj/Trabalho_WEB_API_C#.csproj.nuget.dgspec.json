@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj": {}
+    "C:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj": {
+    "C:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj",
+        "projectUniqueName": "C:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj",
         "projectName": "Trabalho_WEB_API_C#",
-        "projectPath": "c:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj",
+        "projectPath": "C:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\Trabalho_WEB_API_C#.csproj",
         "packagesPath": "C:\\Users\\Tiago\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\obj\\",
+        "outputPath": "C:\\Users\\Tiago\\Documents\\Projetos\\C#\\Trabalho_WEB_API_C#\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
