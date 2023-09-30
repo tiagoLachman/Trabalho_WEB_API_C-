@@ -16,6 +16,7 @@ public class AgendamentoRoutes
             {
                 BaseDeDados.Entry(agendamento).Reference(a => a.medico).Load();
                 BaseDeDados.Entry(agendamento).Reference(a => a.paciente).Load();
+                BaseDeDados.Entry(agendamento.medico).Reference(m => m.especialidade).Load();
             }
 
             return EndPointReturn.Retornar(context, agendamentos);
@@ -52,10 +53,22 @@ public class AgendamentoRoutes
     {
         try
         {
-            BaseDeDados.Agendamentos.Add(agendamento);
-            BaseDeDados.SaveChanges();
-            agendamento = BaseDeDados.Agendamentos.Find(agendamento.id);
-            return EndPointReturn.Retornar(context, "Agendamento cadastrado");
+            agendamento.paciente = BaseDeDados.Pacientes.Find(agendamento.paciente.id);
+            agendamento.medico = BaseDeDados.Medicos.Find(agendamento.medico.id);
+            
+            if (agendamento.paciente == null)
+            {
+                return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
+            }
+
+            if (agendamento.medico == null)
+            {
+                return EndPointReturn.Retornar(context, "Medico não encontrado", 404);
+            }
+
+            List<DateTime> datas = Consultorio.HorariosDisponiveisMedico(BaseDeDados, agendamento.medico, agendamento.data);
+            Consultorio.AgendarConsulta(BaseDeDados, agendamento);
+            return EndPointReturn.Retornar(context, datas);
         }
         catch (Exception e)
         {

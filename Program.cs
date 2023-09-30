@@ -9,38 +9,47 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Trabalho
 {
 
+    class Plano{
+        public int id { get; set; }
+        public string convenio { get; set; }
+        public float desconto { get; set; }
+    }
     class Especialidade
     {
         public int id { get; set; }
-        public string? nome { get; set; }
+        public string nome { get; set; }
     }
 
     class Paciente
     {
         public int id { get; set; }
-        public string? nome { get; set; }
-        public string? email { get; set; }
-        public string? cpf { get; set; }
-        public string? endereco { get; set; }
+        public string nome { get; set; }
+        public string email { get; set; }
+        public string cpf { get; set; }
+        public string endereco { get; set; }
     }
 
     class Medico
     {
         public int id { get; set; }
-        public string? nome { get; set; }
-        public string? email { get; set; }
-        public string? crm { get; set; }
-        public Especialidade? especialidade { get; set; }
+        public string nome { get; set; }
+        public string email { get; set; }
+        public string crm { get; set; }
+        public Especialidade especialidade { get; set; }
     }
 
     class Agendamento
     {
-
         public int id { get; set; }
-        public Medico? medico { get; set; }
-        public Paciente? paciente { get; set; }
+        public Medico medico { get; set; }
+        public Paciente paciente { get; set; }
         public DateTime data { get; set; }
-        public float? valor { get; set; }
+        public float valor { get; set; }
+
+        public Agendamento()
+        {
+
+        }
 
         public Agendamento(Medico medico, Paciente paciente, DateTime data, float valor)
         {
@@ -54,20 +63,35 @@ namespace Trabalho
 
     class Consultorio
     {
-
-        public void AgendarConsulta(BaseDeDados db, Paciente paciente, Medico medico, DateTime data, float valor)
+        static public void AgendarConsulta(BaseDeDados db, Agendamento agendamento)
         {
-            Agendamento agendamento = new Agendamento(medico, paciente, data, valor);
             db.Agendamentos.Add(agendamento);
+            db.SaveChanges();
         }
 
-        public List<DateTime> VerificarDisponibilidadeMedico(BaseDeDados db, Medico medico, DateTime data)
+        static public List<Agendamento> BuscarAgendamentosPorMedico(BaseDeDados db, Medico medico)
+        {
+            return db.Agendamentos.Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id).ToList();
+        }
+
+        static public List<Agendamento> BuscarAgendamentosPorDia(BaseDeDados db, DateTime data)
+        {
+            return db.Agendamentos.Where(agendamento => agendamento.data.Date == data.Date).ToList();
+        }
+
+        static public List<Agendamento> BuscarAgendamentosPorMedicoDia(BaseDeDados db, Medico medico, DateTime data)
+        {
+            return db.Agendamentos.Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id && agendamento.data.Date == data.Date).ToList();
+        }
+
+        static public List<DateTime> HorariosDisponiveisMedico(BaseDeDados db, Medico medico, DateTime data)
         {
             List<DateTime> listaHorasDisponiveis = new List<DateTime>();
-            DateTime temp = data;
-            for(int i=0;i<48;i++){
+            DateTime temp = data.Date;
+            for (int i = 0; i < 48; i++)
+            {
                 listaHorasDisponiveis.Add(temp);
-                temp.AddMinutes(30);
+                temp = temp.AddMinutes(30);
             }
             var listaConsultas = db.Agendamentos.Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id && agendamento.data.Date == data.Date).ToList();
 
@@ -75,15 +99,15 @@ namespace Trabalho
             {
                 db.Entry(agendamento).Reference(a => a.medico).Load();
                 db.Entry(agendamento).Reference(a => a.paciente).Load();
-                if(agendamento.data.Minute > 30){
-                    agendamento.data.AddMinutes(60-agendamento.data.Minute);
+                if (agendamento.data.Minute > 30)
+                {
+                    agendamento.data.AddMinutes(60 - agendamento.data.Minute);
                 }
-                agendamento.data.AddMinutes(30-agendamento.data.Minute);
+                agendamento.data.AddMinutes(30 - agendamento.data.Minute);
                 foreach (var item in listaHorasDisponiveis)
                 {
-                    if(agendamento.data.Hour == item.Hour && agendamento.data.Minute == item.Minute){
-                        listaHorasDisponiveis.Remove(item);
-                    }
+                    var horaAgendamento = new DateTime(data.Year, data.Month, data.Day, agendamento.data.Hour, agendamento.data.Minute, 0);
+                    listaHorasDisponiveis.Remove(horaAgendamento);
                 }
             }
             return listaHorasDisponiveis;
@@ -117,7 +141,6 @@ namespace Trabalho
             MedicoRoutes.CreateRoutes(app);
             EspecialidadeRoutes.CreateRoutes(app);
             AgendamentoRoutes.CreateRoutes(app);
-
 
             app.Run();
         }
