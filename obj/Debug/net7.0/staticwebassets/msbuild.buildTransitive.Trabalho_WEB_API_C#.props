@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Trabalho_WEB_API_C#.props" />
-</Project>
