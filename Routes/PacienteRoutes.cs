@@ -13,6 +13,11 @@ public class PacienteRoutes
         {
             var pacientes = BaseDeDados.Pacientes.ToList();
 
+            foreach (var paciente in pacientes)
+            {
+                BaseDeDados.Entry(paciente).Reference(p => p.plano).Load();
+            }
+
             return EndPointReturn.Retornar(context, pacientes);
         }
         catch (Exception e)
@@ -31,7 +36,7 @@ public class PacienteRoutes
             {
                 return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
             }
-
+            BaseDeDados.Entry(paciente).Reference(p => p.plano).Load();
             return EndPointReturn.Retornar(context, paciente, 404);
         }
         catch (Exception e)
@@ -45,6 +50,11 @@ public class PacienteRoutes
     {
         try
         {
+            paciente.plano = BaseDeDados.Planos.Find(paciente.plano.id);
+            if (paciente.plano == null)
+            {
+                return EndPointReturn.Retornar(context, "Plano do paciente não encontrada", 418);
+            }
             BaseDeDados.Pacientes.Add(paciente);
             BaseDeDados.SaveChanges();
             paciente = BaseDeDados.Pacientes.Find(paciente.id);
@@ -66,9 +76,17 @@ public class PacienteRoutes
             {
                 return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
             }
+
+            pacienteAtualizado.plano = BaseDeDados.Planos.Find(pacienteAtualizado.plano.id);
+            if (pacienteAtualizado.plano == null)
+            {
+                return EndPointReturn.Retornar(context, "Plano do paciente não encontrada", 418);
+            }
+
             paciente.nome = pacienteAtualizado.nome;
             paciente.email = pacienteAtualizado.email;
             paciente.endereco = pacienteAtualizado.endereco;
+            paciente.plano = pacienteAtualizado.plano;
             BaseDeDados.SaveChanges();
 
             return EndPointReturn.Retornar(context, "Paciente atualizado");

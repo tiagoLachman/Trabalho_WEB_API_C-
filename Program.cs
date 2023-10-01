@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Trabalho
 {
 
-    class Plano{
+    class Plano
+    {
         public int id { get; set; }
         public string convenio { get; set; }
         public float desconto { get; set; }
@@ -27,6 +28,7 @@ namespace Trabalho
         public string email { get; set; }
         public string cpf { get; set; }
         public string endereco { get; set; }
+        public Plano plano { get; set; }
     }
 
     class Medico
@@ -124,6 +126,7 @@ namespace Trabalho
         public DbSet<Medico> Medicos { get; set; } = null!;
         public DbSet<Agendamento> Agendamentos { get; set; } = null!;
         public DbSet<Especialidade> Especialidades { get; set; } = null!;
+        public DbSet<Plano> Planos { get; set; } = null!;
     }
 
     class Program
