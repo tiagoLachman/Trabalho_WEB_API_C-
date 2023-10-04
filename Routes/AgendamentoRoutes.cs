@@ -65,10 +65,9 @@ public class AgendamentoRoutes
             {
                 return EndPointReturn.Retornar(context, "Medico não encontrado", 404);
             }
-
-            List<DateTime> datas = Consultorio.HorariosDisponiveisMedico(BaseDeDados, agendamento.medico, agendamento.data);
-            Consultorio.AgendarConsulta(BaseDeDados, agendamento);
-            return EndPointReturn.Retornar(context, datas);
+            var dataDaConsulta = Consultorio.AgendarConsulta(BaseDeDados, agendamento);
+            //List<DateTime> datas = Consultorio.HorariosDisponiveisMedico(BaseDeDados, agendamento.medico, agendamento.data);
+            return EndPointReturn.Retornar(context, dataDaConsulta);
         }
         catch (Exception e)
         {

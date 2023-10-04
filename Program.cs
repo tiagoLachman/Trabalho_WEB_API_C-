@@ -65,10 +65,33 @@ namespace Trabalho
 
     class Consultorio
     {
-        static public void AgendarConsulta(BaseDeDados db, Agendamento agendamento)
+        static public string AgendarConsulta(BaseDeDados db, Agendamento agendamento)
         {
+            List<DateTime> datas = HorariosDisponiveisMedico(db, agendamento.medico, agendamento.data);
+
+            if (datas.Count == 0)
+            {
+                //db.Agendamentos.Add(agendamento);
+                //db.SaveChanges();
+                return "Sem horarios disponiveis";
+            }
+
+            DateTime dataMaisProxima = datas[0];
+            TimeSpan diferencaMaisProxima = dataMaisProxima - agendamento.data;
+
+            foreach (DateTime data in datas)
+            {
+                TimeSpan diferencaAtual = data - agendamento.data;
+                if (diferencaAtual.Duration() < diferencaMaisProxima.Duration())
+                {
+                    dataMaisProxima = data;
+                    diferencaMaisProxima = diferencaAtual;
+                }
+            }
+            agendamento.data = dataMaisProxima;
             db.Agendamentos.Add(agendamento);
             db.SaveChanges();
+            return agendamento.data.ToString();
         }
 
         static public List<Agendamento> BuscarAgendamentosPorMedico(BaseDeDados db, Medico medico)
@@ -86,34 +109,41 @@ namespace Trabalho
             return db.Agendamentos.Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id && agendamento.data.Date == data.Date).ToList();
         }
 
-        static public List<DateTime> HorariosDisponiveisMedico(BaseDeDados db, Medico medico, DateTime data)
+        static public List<DateTime> HorariosDisponiveisMedico(BaseDeDados db, Medico medico, DateTime dataConsulta)
         {
+            int tempoConsulta = 30;
             List<DateTime> listaHorasDisponiveis = new List<DateTime>();
-            DateTime temp = data.Date;
-            for (int i = 0; i < 48; i++)
-            {
-                listaHorasDisponiveis.Add(temp);
-                temp = temp.AddMinutes(30);
-            }
-            var listaConsultas = db.Agendamentos.Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id && agendamento.data.Date == data.Date).ToList();
 
-            foreach (var agendamento in listaConsultas)
+            DateTime horaInicioExpediente = new DateTime(dataConsulta.Year, dataConsulta.Month, dataConsulta.Day, 8, 0, 0);
+            DateTime horaFimExpediente = new DateTime(dataConsulta.Year, dataConsulta.Month, dataConsulta.Day, 17, 0, 0);
+
+            List<DateTime> intervalos = new List<DateTime>();
+            DateTime horaAtual = horaInicioExpediente;
+
+            while (horaAtual < horaFimExpediente)
             {
-                db.Entry(agendamento).Reference(a => a.medico).Load();
-                db.Entry(agendamento).Reference(a => a.paciente).Load();
-                if (agendamento.data.Minute > 30)
-                {
-                    agendamento.data.AddMinutes(60 - agendamento.data.Minute);
-                }
-                agendamento.data.AddMinutes(30 - agendamento.data.Minute);
-                foreach (var item in listaHorasDisponiveis)
-                {
-                    var horaAgendamento = new DateTime(data.Year, data.Month, data.Day, agendamento.data.Hour, agendamento.data.Minute, 0);
-                    listaHorasDisponiveis.Remove(horaAgendamento);
-                }
+                intervalos.Add(horaAtual);
+                horaAtual = horaAtual.AddMinutes(tempoConsulta);
             }
+
+            var consultasAgendadas = db.Agendamentos
+                .Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id &&
+                                      agendamento.data.Date == dataConsulta.Date)
+                .ToList();
+
+            foreach (var consulta in consultasAgendadas)
+            {
+                DateTime inicioConsulta = consulta.data;
+                DateTime fimConsulta = consulta.data.AddMinutes(tempoConsulta);
+
+                intervalos.RemoveAll(intervalo => intervalo >= inicioConsulta && intervalo < fimConsulta);
+            }
+
+            listaHorasDisponiveis.AddRange(intervalos);
+
             return listaHorasDisponiveis;
         }
+
     }
 
     class BaseDeDados : DbContext
@@ -144,6 +174,7 @@ namespace Trabalho
             MedicoRoutes.CreateRoutes(app);
             EspecialidadeRoutes.CreateRoutes(app);
             AgendamentoRoutes.CreateRoutes(app);
+            PlanoRoutes.CreateRoutes(app);
 
             app.Run();
         }
