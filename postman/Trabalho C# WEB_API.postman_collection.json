@@ -1,0 +1,597 @@
+{
+	"info": {
+		"_postman_id": "bb5a6ae4-78dc-4708-a426-99e925d27332",
+		"name": "Trabalho C# WEB_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21109735",
+		"_collection_link": "https://cloudy-astronaut-362056.postman.co/workspace/modelo_pix~568f1336-5dec-4f72-8c82-bf59a4a2d964/collection/21109735-bb5a6ae4-78dc-4708-a426-99e925d27332?action=share&source=collection_link&creator=21109735"
+	},
+	"item": [
+		{
+			"name": "Pacientes",
+			"item": [
+				{
+					"name": "Listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/pacientes",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"pacientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar 1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{locallink}}/paciente/1",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"paciente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"asd2\",\r\n    \"email\":\"asd\",\r\n    \"cpf\":\"asd\",\r\n    \"endereco\":\"asd\",\r\n    \"plano\":{\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/paciente",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"paciente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"\",\r\n    \"email\":\"\",\r\n    \"cpf\":\"\",\r\n    \"endereco\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/paciente",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"paciente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/paciente/1",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"paciente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plano",
+			"item": [
+				{
+					"name": "Listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/planos",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"planos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar 1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{locallink}}/plano/1",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"plano",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"convenio\":\"unymede\",\r\n    \"desconto\":10.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/plano",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"plano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"\",\r\n    \"email\":\"\",\r\n    \"cpf\":\"\",\r\n    \"endereco\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/plano",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"plano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/plano/1",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"plano",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Agendamento",
+			"item": [
+				{
+					"name": "Listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/agendamentos",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"agendamentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar 1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{locallink}}/agendamento/1",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"agendamento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"medico\":{\r\n        \"id\":1\r\n    },\r\n    \"paciente\":{\r\n        \"id\":1\r\n    },\r\n    \"data\":\"2023-09-30T19:00:00.000Z\",\r\n    \"tempoConsulta\": 30,\r\n    \"valor\":130.20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/agendamento",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"agendamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"\",\r\n    \"email\":\"\",\r\n    \"cpf\":\"\",\r\n    \"endereco\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/agendamento",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"agendamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/agendamento/2",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"agendamento",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Medicos",
+			"item": [
+				{
+					"name": "Listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/medicos",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"medicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar 1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{locallink}}/medico/2",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"medico",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"asd2\",\r\n    \"email\":\"asd\",\r\n    \"cpf\":\"dsa\",\r\n    \"crm\":\"asd\",\r\n    \"especialidade\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/medico",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"medico"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"dsa\",\r\n    \"email\":\"\",\r\n    \"cpf\":\"\",\r\n    \"crm\":\"\",\r\n    \"especialidadeId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/medico/2",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"medico",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/medico/1",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"medico",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Especialidades",
+			"item": [
+				{
+					"name": "Listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/especialidades",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"especialidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar 1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{locallink}}/especialidade/0",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"especialidade",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"otorrino\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/especialidade",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"especialidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{locallink}}/especialidade",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"especialidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{locallink}}/especialidade/0",
+							"host": [
+								"{{locallink}}"
+							],
+							"path": [
+								"especialidade",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
