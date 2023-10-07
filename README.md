@@ -1,6 +1,15 @@
 ## 💻 Pré-requisitos
 
 * Instalar `.NET 7.0 sdk`, você pode baixar [aqui](https://dotnet.microsoft.com/en-us/download)
+* Instalar `Postman`, que pode ser baixado [aqui](https://www.postman.com/downloads/)
+
+## 🚀 Configurando o Postman
+
+* Para importar arquivos no `Postman`, vá até `☰ -> File -> Import` e selecione os arquivos.
+
+* Na pasta do projeto [postman](/postman), importe o arquivo [collection.json](/postman/Trabalho%20C#%20WEB_API.postman_collection.json) no `Postman`.
+
+* Na mesma pasta, importe o arquivo [environment.json](/postman/Trabalho%20C#%20WEB_API_ENV.postman_environment.json) no `Postman`, este arquivo corresponde as configurações do projeto.
 
 ## ☕ Iniciando o projeto
 
@@ -11,6 +20,8 @@ Para iniciar o projeto, siga estas etapas:
 ```
 dotnet run
 ```
+
+
 
 
 ## 🐛 Problemas?
