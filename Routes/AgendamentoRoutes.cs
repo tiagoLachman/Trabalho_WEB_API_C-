@@ -27,7 +27,73 @@ public class AgendamentoRoutes
         }
     });
 
-        //listar agendamento especifico (por email)
+        //listar agendamento especifico (por medico)
+        app.MapGet("/agendamento/medico/{idMedico}", (HttpContext context, BaseDeDados BaseDeDados, int idMedico) =>
+    {
+        try
+        {
+            var medico = BaseDeDados.Medicos.Find(idMedico);
+            if (medico == null)
+            {
+                return EndPointReturn.Retornar(context, "Medico não encontrado", 404);
+            }
+
+            var agendamentos = BaseDeDados.Agendamentos
+                .Where(
+                    a => a.medico.id == medico.id
+                    && a.cancelado == false
+                    )
+                .ToList();
+            foreach (var agendamento in agendamentos)
+            {
+                BaseDeDados.Entry(agendamento).Reference(a => a.medico).Load();
+                BaseDeDados.Entry(agendamento).Reference(a => a.paciente).Load();
+                BaseDeDados.Entry(agendamento.medico).Reference(m => m.especialidade).Load();
+            }
+
+            return EndPointReturn.Retornar(context, agendamentos);
+
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
+    });
+
+        //listar agendamento especifico (por paciente)
+        app.MapGet("/agendamento/paciente/{idPaciente}", (HttpContext context, BaseDeDados BaseDeDados, int idPaciente) =>
+    {
+        try
+        {
+            var paciente = BaseDeDados.Pacientes.Find(idPaciente);
+            if (paciente == null)
+            {
+                return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
+            }
+
+            var agendamentos = BaseDeDados.Agendamentos
+                .Where(
+                    a => a.paciente.id == paciente.id
+                    && a.cancelado == false
+                    )
+                .ToList();
+            foreach (var agendamento in agendamentos)
+            {
+                BaseDeDados.Entry(agendamento).Reference(a => a.medico).Load();
+                BaseDeDados.Entry(agendamento).Reference(a => a.paciente).Load();
+                BaseDeDados.Entry(agendamento.medico).Reference(m => m.especialidade).Load();
+            }
+
+            return EndPointReturn.Retornar(context, agendamentos);
+
+        }
+        catch (Exception e)
+        {
+            return EndPointReturn.Retornar(context, e.Message, 500);
+        }
+    });
+
+        //listar agendamento especifico (por id)
         app.MapGet("/agendamento/{id}", (HttpContext context, BaseDeDados BaseDeDados, int id) =>
     {
         try
@@ -53,18 +119,22 @@ public class AgendamentoRoutes
     {
         try
         {
-            agendamento.paciente = BaseDeDados.Pacientes.Find(agendamento.paciente.id);
-            agendamento.medico = BaseDeDados.Medicos.Find(agendamento.medico.id);
-            
-            if (agendamento.paciente == null)
+            agendamento.cancelado = false;
+            string temp = agendamento.ehNulo();
+            if (temp.Length > 0)
             {
-                return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
             }
 
-            if (agendamento.medico == null)
+            agendamento.paciente = BaseDeDados.Pacientes.Find(agendamento.paciente.id);
+            agendamento.medico = BaseDeDados.Medicos.Find(agendamento.medico.id);
+
+            temp = agendamento.ehNulo();
+            if (temp.Length > 0)
             {
-                return EndPointReturn.Retornar(context, "Medico não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
             }
+
             var dataDaConsulta = Consultorio.AgendarConsulta(BaseDeDados, agendamento);
             //List<DateTime> datas = Consultorio.HorariosDisponiveisMedico(BaseDeDados, agendamento.medico, agendamento.data);
             return EndPointReturn.Retornar(context, dataDaConsulta);
@@ -80,18 +150,7 @@ public class AgendamentoRoutes
     {
         try
         {
-            var agendamento = BaseDeDados.Agendamentos.Find(id);
-            if (agendamento == null)
-            {
-                return EndPointReturn.Retornar(context, "Agendamento não encontrado", 404);
-            }
-            agendamento.medico = agendamentoAtualizado.medico;
-            agendamento.paciente = agendamentoAtualizado.paciente;
-            agendamento.data = agendamentoAtualizado.data;
-            agendamento.valor = agendamentoAtualizado.valor;
-            BaseDeDados.SaveChanges();
-
-            return EndPointReturn.Retornar(context, "Agendamento atualizado");
+            return EndPointReturn.Retornar(context, "dataDaConsulta");
         }
         catch (Exception e)
         {
@@ -109,7 +168,7 @@ public class AgendamentoRoutes
             {
                 return EndPointReturn.Retornar(context, "Agendamento não encontrado", 404);
             }
-            BaseDeDados.Remove(agendamento);
+            agendamento.cancelado = true;
             BaseDeDados.SaveChanges();
             return EndPointReturn.Retornar(context, "Agendamento deletado com sucesso");
         }

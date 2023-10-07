@@ -50,11 +50,17 @@ public class MedicoRoutes
     {
         try
         {
+            if (BaseDeDados.Medicos.Where(m => m.crm == medico.crm).FirstOrDefault() != null)
+            {
+                return EndPointReturn.Retornar(context, "Médico já cadastrado", 400);
+            }
+
             medico.especialidade = BaseDeDados.Especialidades.Find(medico.especialidade.id);
             if (medico.especialidade == null)
             {
                 return EndPointReturn.Retornar(context, "Especialidade do médico não encontrada", 418);
             }
+
             BaseDeDados.Medicos.Add(medico);
             BaseDeDados.SaveChanges();
             medico = BaseDeDados.Medicos.Find(medico.id);
@@ -76,6 +82,22 @@ public class MedicoRoutes
             {
                 return EndPointReturn.Retornar(context, "Médico não encontrado", 404);
             }
+
+            if (
+                BaseDeDados.Medicos.Where(m => m.crm == medicoAtualizado.crm).FirstOrDefault() != null &&
+                medicoAtualizado.crm != medico.crm
+            )
+            {
+                return EndPointReturn.Retornar(context, "CRM já cadastrado", 400);
+            }
+
+            string temp = medicoAtualizado.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
+
+
             medicoAtualizado.especialidade = BaseDeDados.Especialidades.Find(medicoAtualizado.especialidade.id);
             if (medicoAtualizado.especialidade == null)
             {

@@ -90,7 +90,8 @@ namespace Trabalho_WEB_API_C_.Migrations
                     medicoid = table.Column<int>(type: "INTEGER", nullable: false),
                     pacienteid = table.Column<int>(type: "INTEGER", nullable: false),
                     data = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    valor = table.Column<float>(type: "REAL", nullable: false)
+                    valor = table.Column<float>(type: "REAL", nullable: false),
+                    cancelado = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {

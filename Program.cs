@@ -29,6 +29,31 @@ namespace Trabalho
         public string cpf { get; set; }
         public string endereco { get; set; }
         public Plano plano { get; set; }
+
+        public string ehNulo()
+        {
+            if (endereco == null || endereco.Length <= 0)
+            {
+                return "endereco nulo ou em branco";
+            }
+            if (plano == null)
+            {
+                return "plano nulo ou em branco";
+            }
+            if (email == null || email.Length <= 0)
+            {
+                return "email nulo ou em branco";
+            }
+            if (cpf == null || cpf.Length <= 0)
+            {
+                return "cpf nulo ou em branco";
+            }
+            if (nome == null || nome.Length <= 0)
+            {
+                return "nome nulo ou em branco";
+            }
+            return "";
+        }
     }
 
     class Medico
@@ -38,6 +63,27 @@ namespace Trabalho
         public string email { get; set; }
         public string crm { get; set; }
         public Especialidade especialidade { get; set; }
+
+        public string ehNulo()
+        {
+            if (nome == null || nome.Length <= 0)
+            {
+                return "nome nulo ou em branco";
+            }
+            if (especialidade == null)
+            {
+                return "especialidade nulo ou em branco";
+            }
+            if (crm == null || crm.Length <= 0)
+            {
+                return "crm nulo ou em branco";
+            }
+            if (email == null || email.Length <= 0)
+            {
+                return "email nulo ou em branco";
+            }
+            return "";
+        }
     }
 
     class Agendamento
@@ -47,6 +93,7 @@ namespace Trabalho
         public Paciente paciente { get; set; }
         public DateTime data { get; set; }
         public float valor { get; set; }
+        public bool? cancelado {get; set;}
 
         public Agendamento()
         {
@@ -61,6 +108,27 @@ namespace Trabalho
             this.valor = valor;
         }
 
+        public string ehNulo()
+        {
+            if (medico == null)
+            {
+                return "medico nulo ou em branco";
+            }
+            if (data == null)
+            {
+                return "data nulo ou em branco";
+            }
+            if (paciente == null)
+            {
+                return "paciente nulo ou em branco";
+            }
+            if (valor <= 0)
+            {
+                return "valor nulo ou em branco";
+            }
+            return "";
+        }
+
     }
 
     class Consultorio
@@ -71,8 +139,6 @@ namespace Trabalho
 
             if (datas.Count == 0)
             {
-                //db.Agendamentos.Add(agendamento);
-                //db.SaveChanges();
                 return "Sem horarios disponiveis";
             }
 
@@ -88,10 +154,16 @@ namespace Trabalho
                     diferencaMaisProxima = diferencaAtual;
                 }
             }
+            string retorno = "M";
+            if (dataMaisProxima.CompareTo(agendamento.data) != 0)
+            {
+                retorno = "Horário não disponível, m";
+            }
             agendamento.data = dataMaisProxima;
             db.Agendamentos.Add(agendamento);
             db.SaveChanges();
-            return agendamento.data.ToString();
+
+            return retorno + "arcado para: " + agendamento.data.ToString();
         }
 
         static public List<Agendamento> BuscarAgendamentosPorMedico(BaseDeDados db, Medico medico)
@@ -127,8 +199,11 @@ namespace Trabalho
             }
 
             var consultasAgendadas = db.Agendamentos
-                .Where(agendamento => agendamento.medico != null && agendamento.medico.id == medico.id &&
-                                      agendamento.data.Date == dataConsulta.Date)
+                .Where(agendamento => agendamento.medico != null
+                    && agendamento.medico.id == medico.id 
+                    && agendamento.data.Date == dataConsulta.Date
+                    && agendamento.cancelado == false
+                    )
                 .ToList();
 
             foreach (var consulta in consultasAgendadas)

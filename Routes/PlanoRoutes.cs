@@ -44,6 +44,14 @@ public class PlanoRoutes
     {
         try
         {
+            if (plano.desconto == 0.0 || plano.desconto > 100.0)
+            {
+                return EndPointReturn.Retornar(context, "Desconto inválido", 400);
+            }
+            if (BaseDeDados.Planos.Where(p => p.convenio == plano.convenio).FirstOrDefault() != null)
+            {
+                return EndPointReturn.Retornar(context, "Plano já cadastrado", 400);
+            }
             BaseDeDados.Planos.Add(plano);
             BaseDeDados.SaveChanges();
             plano = BaseDeDados.Planos.Find(plano.id);
@@ -60,11 +68,27 @@ public class PlanoRoutes
     {
         try
         {
+            if (planoAtualizado.desconto == 0.0 || planoAtualizado.desconto > 100.0)
+            {
+                return EndPointReturn.Retornar(context, "Desconto inválido", 400);
+            }
+
             var plano = BaseDeDados.Planos.Find(id);
             if (plano == null)
             {
                 return EndPointReturn.Retornar(context, "Plano não encontrado", 404);
             }
+            
+            if (
+                BaseDeDados.Planos.Where(p => p.convenio == planoAtualizado.convenio).FirstOrDefault() != null &&
+                planoAtualizado.convenio != plano.convenio
+            )
+            {
+                return EndPointReturn.Retornar(context, "Plano já cadastrado", 400);
+            }
+            
+
+            
             plano.convenio = planoAtualizado.convenio;
             plano.desconto = planoAtualizado.desconto;
             BaseDeDados.SaveChanges();

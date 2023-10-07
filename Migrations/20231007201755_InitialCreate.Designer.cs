@@ -11,7 +11,7 @@ using Trabalho;
 namespace Trabalho_WEB_API_C_.Migrations
 {
     [DbContext(typeof(BaseDeDados))]
-    [Migration("20231004021550_InitialCreate")]
+    [Migration("20231007201755_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("cancelado")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("data")

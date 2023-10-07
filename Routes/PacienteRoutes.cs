@@ -50,14 +50,20 @@ public class PacienteRoutes
     {
         try
         {
+            if (BaseDeDados.Pacientes.Where(p => p.cpf == paciente.cpf).FirstOrDefault() != null)
+            {
+                return EndPointReturn.Retornar(context, "Paciente já cadastrado", 400);
+            }
+
             paciente.plano = BaseDeDados.Planos.Find(paciente.plano.id);
             if (paciente.plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano do paciente não encontrada", 418);
+                return EndPointReturn.Retornar(context, "Plano do paciente não encontrado", 418);
             }
             BaseDeDados.Pacientes.Add(paciente);
             BaseDeDados.SaveChanges();
             paciente = BaseDeDados.Pacientes.Find(paciente.id);
+
             return EndPointReturn.Retornar(context, "Paciente cadastrado");
         }
         catch (Exception e)
@@ -77,16 +83,31 @@ public class PacienteRoutes
                 return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
             }
 
+            if (
+                BaseDeDados.Pacientes.Where(p => p.cpf == pacienteAtualizado.cpf).FirstOrDefault() != null &&
+                pacienteAtualizado.cpf != paciente.cpf
+            )
+            {
+                return EndPointReturn.Retornar(context, "CPF já cadastrado", 400);
+            }
+
+            string temp = pacienteAtualizado.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
+
             pacienteAtualizado.plano = BaseDeDados.Planos.Find(pacienteAtualizado.plano.id);
             if (pacienteAtualizado.plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano do paciente não encontrada", 418);
+                return EndPointReturn.Retornar(context, "Plano do paciente não encontrado", 418);
             }
 
             paciente.nome = pacienteAtualizado.nome;
             paciente.email = pacienteAtualizado.email;
             paciente.endereco = pacienteAtualizado.endereco;
             paciente.plano = pacienteAtualizado.plano;
+            paciente.cpf = pacienteAtualizado.cpf;
             BaseDeDados.SaveChanges();
 
             return EndPointReturn.Retornar(context, "Paciente atualizado");

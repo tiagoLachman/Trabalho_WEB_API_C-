@@ -23,6 +23,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool?>("cancelado")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("data")
                         .HasColumnType("TEXT");
 

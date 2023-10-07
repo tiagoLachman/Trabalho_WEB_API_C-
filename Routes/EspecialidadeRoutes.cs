@@ -44,6 +44,11 @@ public class EspecialidadeRoutes
     {
         try
         {
+            if (BaseDeDados.Especialidades.Where(e => e.nome == especialidade.nome).FirstOrDefault() != null)
+            {
+                return EndPointReturn.Retornar(context, "Especialidade já cadastrada", 400);
+            }
+            
             BaseDeDados.Especialidades.Add(especialidade);
             BaseDeDados.SaveChanges();
             especialidade = BaseDeDados.Especialidades.Find(especialidade.id);
@@ -60,6 +65,11 @@ public class EspecialidadeRoutes
     {
         try
         {
+            if (BaseDeDados.Especialidades.Where(e => e.nome == especialidadeAtualizado.nome).FirstOrDefault() != null)
+            {
+                return EndPointReturn.Retornar(context, "Especialidade já cadastrada", 400);
+            }
+
             var especialidade = BaseDeDados.Especialidades.Find(id);
             if (especialidade == null)
             {
