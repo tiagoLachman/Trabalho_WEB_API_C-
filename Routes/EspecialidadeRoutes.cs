@@ -12,6 +12,10 @@ public class EspecialidadeRoutes
         {
             var especialidades = BaseDeDados.Especialidades.ToList();
 
+            if(especialidades.Count == 0){
+                return EndPointReturn.Retornar(context, "Nenhuma especialidade cadastrada!!");
+            }
+
             return EndPointReturn.Retornar(context, especialidades);
         }
         catch (Exception e)
@@ -28,7 +32,7 @@ public class EspecialidadeRoutes
             var especialidade = BaseDeDados.Especialidades.Find(id);
             if (especialidade == null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade não encontrada", 404);
+                return EndPointReturn.Retornar(context, "Especialidadecom id " + id + " não encontrada", 404);
             }
 
             return EndPointReturn.Retornar(context, especialidade, 404);
@@ -46,7 +50,7 @@ public class EspecialidadeRoutes
         {
             if (BaseDeDados.Especialidades.Where(e => e.nome == especialidade.nome).FirstOrDefault() != null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade já cadastrada", 400);
+                return EndPointReturn.Retornar(context, "Especialidade com nome '" + especialidade.nome + "' já cadastrada no Sistema!!!", 400);
             }
             
             BaseDeDados.Especialidades.Add(especialidade);
@@ -61,24 +65,26 @@ public class EspecialidadeRoutes
     });
 
         //atualizar especialidade
-        app.MapPut("/especialidade/{id}", (HttpContext context, BaseDeDados BaseDeDados, Especialidade especialidadeAtualizado, int id) =>
+        app.MapPut("/especialidade/{id}", (HttpContext context, BaseDeDados BaseDeDados, Especialidade especialidadeAtualizada, int id) =>
     {
         try
         {
-            if (BaseDeDados.Especialidades.Where(e => e.nome == especialidadeAtualizado.nome).FirstOrDefault() != null)
-            {
-                return EndPointReturn.Retornar(context, "Especialidade já cadastrada", 400);
-            }
-
             var especialidade = BaseDeDados.Especialidades.Find(id);
             if (especialidade == null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade não encontrada", 404);
+                return EndPointReturn.Retornar(context, "Especialidade com id " + id + " não encontrada", 404);
             }
-            especialidade.nome = especialidadeAtualizado.nome;
+
+            if (BaseDeDados.Especialidades.Where(e => e.nome == especialidadeAtualizada.nome).FirstOrDefault() != null)
+            {
+                return EndPointReturn.Retornar(context, "Especialidade com nome '" + especialidadeAtualizada.nome + "' já cadastrada no Sistema!!!", 400);
+            }
+
+            
+            especialidade.nome = especialidadeAtualizada.nome;
             BaseDeDados.SaveChanges();
 
-            return EndPointReturn.Retornar(context, "Especialidade atualizada");
+            return EndPointReturn.Retornar(context, "Especialidade com id " + id + " atualizada");
         }
         catch (Exception e)
         {
@@ -94,11 +100,11 @@ public class EspecialidadeRoutes
             var especialidade = BaseDeDados.Especialidades.Find(id);
             if (especialidade == null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade não encontrada", 404);
+                return EndPointReturn.Retornar(context, "Especialidade com id " + id + " não encontrada", 404);
             }
             BaseDeDados.Remove(especialidade);
             BaseDeDados.SaveChanges();
-            return EndPointReturn.Retornar(context, "Especialidade deletada com sucesso");
+            return EndPointReturn.Retornar(context, "Especialidade com id " + id + " deletada com sucesso");
         }
         catch (Exception e)
         {
