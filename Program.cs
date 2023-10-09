@@ -74,13 +74,13 @@ namespace Trabalho
             {
                 return "especialidade nulo ou em branco";
             }
-            if (crm == null || crm.Length <= 0)
-            {
-                return "crm nulo ou em branco";
-            }
             if (email == null || email.Length <= 0)
             {
                 return "email nulo ou em branco";
+            }
+            if (crm == null || crm.Length <= 0)
+            {
+                return "crm nulo ou em branco";
             }
             return "";
         }

@@ -65,6 +65,12 @@ public class MedicoRoutes
                 return EndPointReturn.Retornar(context, "Especialidade com id "+ aux + " não encontrada", 418);
             }
 
+            string temp = medico.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
+
             BaseDeDados.Medicos.Add(medico);
             BaseDeDados.SaveChanges();
             medico = BaseDeDados.Medicos.Find(medico.id);
@@ -72,7 +78,7 @@ public class MedicoRoutes
         }
         catch (Exception e)
         {
-            return EndPointReturn.Retornar(context,"DEO MERDA AQ " + e.Message, 500);
+            return EndPointReturn.Retornar(context, e.Message, 500);
         }
     });
 
