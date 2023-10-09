@@ -126,8 +126,20 @@ public class AgendamentoRoutes
                 return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
             }
 
-            agendamento.paciente = BaseDeDados.Pacientes.Find(agendamento.paciente.id);
-            agendamento.medico = BaseDeDados.Medicos.Find(agendamento.medico.id);
+            agendamento.paciente = BaseDeDados.Pacientes.Where(p => p.id == agendamento.paciente.id).FirstOrDefault();
+            agendamento.medico = BaseDeDados.Medicos.Where(m => m.id == agendamento.medico.id).FirstOrDefault();
+
+            temp = agendamento.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
+
+            if(agendamento.paciente.ativo == false){
+                return EndPointReturn.Retornar(context, "Paciente desativado", 400);
+            }else if(agendamento.medico.ativo == false){
+                return EndPointReturn.Retornar(context, "Médico desativado", 400);
+            }
 
             temp = agendamento.ehNulo();
             if (temp.Length > 0)
@@ -150,7 +162,37 @@ public class AgendamentoRoutes
     {
         try
         {
-            return EndPointReturn.Retornar(context, "dataDaConsulta");
+            var agendamento = BaseDeDados.Agendamentos.Find(id);
+            if (agendamento == null)
+            {
+                return EndPointReturn.Retornar(context, "Agendamento não encontrado", 404);
+            }
+            if(agendamento.cancelado == true){
+                return EndPointReturn.Retornar(context, "Agendamento já cancelado", 404);
+            }
+            agendamentoAtualizado.cancelado = false;
+            string temp = agendamentoAtualizado.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
+            agendamentoAtualizado.paciente = BaseDeDados.Pacientes.Where(p => p.id == agendamentoAtualizado.paciente.id).FirstOrDefault();
+            agendamentoAtualizado.medico = BaseDeDados.Medicos.Where(m => m.id == agendamentoAtualizado.medico.id).FirstOrDefault();
+
+            temp = agendamentoAtualizado.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
+
+            if(agendamentoAtualizado.paciente.ativo == false){
+                return EndPointReturn.Retornar(context, "Paciente desativado", 400);
+            }else if(agendamentoAtualizado.medico.ativo == false){
+                return EndPointReturn.Retornar(context, "Médico desativado", 400);
+            }
+
+            string retorno = Consultorio.Reagendar(BaseDeDados, agendamento, agendamentoAtualizado);
+            return EndPointReturn.Retornar(context, retorno);
         }
         catch (Exception e)
         {

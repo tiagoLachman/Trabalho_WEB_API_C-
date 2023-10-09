@@ -55,15 +55,16 @@ public class PacienteRoutes
     {
         try
         {
+            paciente.ativo = true;
             if (BaseDeDados.Pacientes.Where(p => p.cpf == paciente.cpf).FirstOrDefault() != null)
             {
                 return EndPointReturn.Retornar(context, "Paciente com CPF '" + paciente.cpf + "' já cadastrado", 400);
             }
 
-            paciente.plano = BaseDeDados.Planos.Find(paciente.plano.id);
+            paciente.plano = BaseDeDados.Planos.Where(p => p.id == paciente.plano.id && p.ativo == true).FirstOrDefault();
             if (paciente.plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano do paciente não encontrado", 418);
+                return EndPointReturn.Retornar(context, "Plano do paciente não encontrado ou não ativo", 418);
             }
             BaseDeDados.Pacientes.Add(paciente);
             BaseDeDados.SaveChanges();
@@ -102,10 +103,10 @@ public class PacienteRoutes
                 return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
             }
 
-            pacienteAtualizado.plano = BaseDeDados.Planos.Find(pacienteAtualizado.plano.id);
+            pacienteAtualizado.plano = BaseDeDados.Planos.Where(p => p.id == pacienteAtualizado.plano.id && p.ativo == true).FirstOrDefault();
             if (pacienteAtualizado.plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano do paciente não encontrado", 418);
+                return EndPointReturn.Retornar(context, "Plano do paciente não encontrado ou não ativo", 418);
             }
 
             paciente.nome = pacienteAtualizado.nome;
@@ -113,6 +114,7 @@ public class PacienteRoutes
             paciente.endereco = pacienteAtualizado.endereco;
             paciente.plano = pacienteAtualizado.plano;
             paciente.cpf = pacienteAtualizado.cpf;
+            paciente.ativo = pacienteAtualizado.ativo;
             BaseDeDados.SaveChanges();
 
             return EndPointReturn.Retornar(context, "Paciente com id " + id + " atualizado");
@@ -133,7 +135,7 @@ public class PacienteRoutes
             {
                 return EndPointReturn.Retornar(context, "Paciente com id " + id + " não encontrado", 404);
             }
-            BaseDeDados.Remove(paciente);
+            paciente.ativo = false;
             BaseDeDados.SaveChanges();
             return EndPointReturn.Retornar(context, "Paciente com id " + id + " deletado com sucesso");
         }

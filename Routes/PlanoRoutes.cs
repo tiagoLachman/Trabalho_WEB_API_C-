@@ -11,7 +11,8 @@ public class PlanoRoutes
         try
         {
             var planos = BaseDeDados.Planos.ToList();
-            if(planos.Count == 0) {
+            if (planos.Count == 0)
+            {
                 return EndPointReturn.Retornar(context, "Nenhum plano cadastrado!", 404);
             }
             return EndPointReturn.Retornar(context, planos);
@@ -46,6 +47,7 @@ public class PlanoRoutes
     {
         try
         {
+            plano.ativo = true;
             if (plano.desconto == 0.0 || plano.desconto > 100.0)
             {
                 return EndPointReturn.Retornar(context, "Desconto inválido", 400);
@@ -74,13 +76,18 @@ public class PlanoRoutes
             {
                 return EndPointReturn.Retornar(context, "Desconto inválido", 400);
             }
+            string temp = planoAtualizado.ehNulo();
+            if (temp.Length > 0)
+            {
+                return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
+            }
 
             var plano = BaseDeDados.Planos.Find(id);
             if (plano == null)
             {
                 return EndPointReturn.Retornar(context, "Plano com id " + id + " não encontrado", 404);
             }
-            
+
             if (
                 BaseDeDados.Planos.Where(p => p.convenio == planoAtualizado.convenio).FirstOrDefault() != null &&
                 planoAtualizado.convenio != plano.convenio
@@ -89,11 +96,10 @@ public class PlanoRoutes
                 return EndPointReturn.Retornar(context, "Plano com convenio '" + plano.convenio + "' já está cadastrado no sistema! Tente outro nome", 400);
 
             }
-            
 
-            
             plano.convenio = planoAtualizado.convenio;
             plano.desconto = planoAtualizado.desconto;
+            plano.ativo = planoAtualizado.ativo;
             BaseDeDados.SaveChanges();
 
             return EndPointReturn.Retornar(context, "Plano com id " + id + " atualizado");
@@ -114,7 +120,7 @@ public class PlanoRoutes
             {
                 return EndPointReturn.Retornar(context, "Plano com id " + id + " não encontrado", 404);
             }
-            BaseDeDados.Remove(plano);
+            plano.ativo = false;
             BaseDeDados.SaveChanges();
             return EndPointReturn.Retornar(context, "Plano com id " + id + " deletado com sucesso");
         }

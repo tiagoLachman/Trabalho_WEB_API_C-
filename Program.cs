@@ -14,11 +14,42 @@ namespace Trabalho
         public int id { get; set; }
         public string convenio { get; set; }
         public float desconto { get; set; }
+        public bool? ativo { get; set; }
+        public string ehNulo()
+        {
+            if (ativo == null)
+            {
+                return "status de ativo nulo ou em branco";
+            }
+            if (convenio == null || convenio.Length <= 0)
+            {
+                return "convenio nulo ou em branco";
+            }
+            if (desconto == 0 || desconto > 100)
+            {
+                return "desconto invalido";
+            }
+            return "";
+        }
     }
     class Especialidade
     {
         public int id { get; set; }
         public string nome { get; set; }
+        public bool? ativo { get; set; }
+
+        public string ehNulo()
+        {
+            if (ativo == null)
+            {
+                return "status de ativo nulo ou em branco";
+            }
+            if (nome == null || nome.Length <= 0)
+            {
+                return "nome nulo ou em branco";
+            }
+            return "";
+        }
     }
 
     class Paciente
@@ -28,10 +59,15 @@ namespace Trabalho
         public string email { get; set; }
         public string cpf { get; set; }
         public string endereco { get; set; }
+        public bool? ativo { get; set; }
         public Plano plano { get; set; }
 
         public string ehNulo()
         {
+            if (ativo == null)
+            {
+                return "status de ativo nulo ou em branco";
+            }
             if (endereco == null || endereco.Length <= 0)
             {
                 return "endereco nulo ou em branco";
@@ -62,10 +98,15 @@ namespace Trabalho
         public string nome { get; set; }
         public string email { get; set; }
         public string crm { get; set; }
+        public bool? ativo { get; set; }
         public Especialidade especialidade { get; set; }
 
         public string ehNulo()
         {
+            if (ativo == null)
+            {
+                return "status de ativo nulo ou em branco";
+            }
             if (nome == null || nome.Length <= 0)
             {
                 return "nome nulo ou em branco";
@@ -93,23 +134,37 @@ namespace Trabalho
         public Paciente paciente { get; set; }
         public DateTime data { get; set; }
         public float valor { get; set; }
-        public bool? cancelado {get; set;}
+        public bool? cancelado { get; set; }
 
         public Agendamento()
         {
 
         }
 
-        public Agendamento(Medico medico, Paciente paciente, DateTime data, float valor)
+        public Agendamento(Medico medico, Paciente paciente, DateTime data, float valor, bool cancelado)
         {
             this.medico = medico;
             this.data = data;
             this.paciente = paciente;
             this.valor = valor;
+            this.cancelado = cancelado;
+        }
+
+        public Agendamento(Agendamento agendamento)
+        {
+            this.medico = agendamento.medico;
+            this.data = agendamento.data;
+            this.paciente = agendamento.paciente;
+            this.valor = agendamento.valor;
+            this.cancelado = agendamento.cancelado;
         }
 
         public string ehNulo()
         {
+            if (cancelado == null)
+            {
+                return "status de ativo nulo ou em branco";
+            }
             if (medico == null)
             {
                 return "medico nulo ou em branco";
@@ -160,10 +215,27 @@ namespace Trabalho
                 retorno = "Horário não disponível, m";
             }
             agendamento.data = dataMaisProxima;
+
+            db.Entry(agendamento.paciente).Reference(p => p.plano).Load();
+            float valorTemp = agendamento.valor;
+            agendamento.valor = valorTemp - valorTemp * (agendamento.paciente.plano.desconto/100.0f);
+
             db.Agendamentos.Add(agendamento);
             db.SaveChanges();
 
             return retorno + "arcado para: " + agendamento.data.ToString();
+        }
+
+        static public string Reagendar(BaseDeDados db, Agendamento agendamento, Agendamento agendamentoAtualizado)
+        {
+            agendamento.cancelado = true;
+            db.SaveChanges();
+
+            agendamentoAtualizado.cancelado = false;
+
+            var dataDaConsulta = Consultorio.AgendarConsulta(db, agendamentoAtualizado);
+            //List<DateTime> datas = Consultorio.HorariosDisponiveisMedico(BaseDeDados, agendamento.medico, agendamento.data);
+            return "Agendamento remarcado com sucesso para o dia: " + dataDaConsulta.ToString();
         }
 
         static public List<Agendamento> BuscarAgendamentosPorMedico(BaseDeDados db, Medico medico)
@@ -200,7 +272,7 @@ namespace Trabalho
 
             var consultasAgendadas = db.Agendamentos
                 .Where(agendamento => agendamento.medico != null
-                    && agendamento.medico.id == medico.id 
+                    && agendamento.medico.id == medico.id
                     && agendamento.data.Date == dataConsulta.Date
                     && agendamento.cancelado == false
                     )

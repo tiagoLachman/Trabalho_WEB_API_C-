@@ -48,6 +48,7 @@ public class EspecialidadeRoutes
     {
         try
         {
+            especialidade.ativo = true;
             if (BaseDeDados.Especialidades.Where(e => e.nome == especialidade.nome).FirstOrDefault() != null)
             {
                 return EndPointReturn.Retornar(context, "Especialidade com nome '" + especialidade.nome + "' já cadastrada no Sistema!!!", 400);
@@ -75,13 +76,17 @@ public class EspecialidadeRoutes
                 return EndPointReturn.Retornar(context, "Especialidade com id " + id + " não encontrada", 404);
             }
 
-            if (BaseDeDados.Especialidades.Where(e => e.nome == especialidadeAtualizada.nome).FirstOrDefault() != null)
+            if (
+                BaseDeDados.Especialidades.Where(e => e.nome == especialidadeAtualizada.nome).FirstOrDefault() != null &&
+                especialidade.nome != especialidadeAtualizada.nome
+                )
             {
                 return EndPointReturn.Retornar(context, "Especialidade com nome '" + especialidadeAtualizada.nome + "' já cadastrada no Sistema!!!", 400);
             }
 
             
             especialidade.nome = especialidadeAtualizada.nome;
+            especialidade.ativo = especialidadeAtualizada.ativo;
             BaseDeDados.SaveChanges();
 
             return EndPointReturn.Retornar(context, "Especialidade com id " + id + " atualizada");
@@ -102,7 +107,7 @@ public class EspecialidadeRoutes
             {
                 return EndPointReturn.Retornar(context, "Especialidade com id " + id + " não encontrada", 404);
             }
-            BaseDeDados.Remove(especialidade);
+            especialidade.ativo = false;
             BaseDeDados.SaveChanges();
             return EndPointReturn.Retornar(context, "Especialidade com id " + id + " deletada com sucesso");
         }

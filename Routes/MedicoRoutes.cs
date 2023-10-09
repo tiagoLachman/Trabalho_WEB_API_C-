@@ -29,7 +29,7 @@ public class MedicoRoutes
         }
     });
 
-        //listar medico especifico (por email)
+        //listar medico especifico (por id)
         app.MapGet("/medico/{id}", (HttpContext context, BaseDeDados BaseDeDados, int id) =>
     {
         try
@@ -54,15 +54,16 @@ public class MedicoRoutes
     {
         try
         {
+            medico.ativo = true;
             if (BaseDeDados.Medicos.Where(m => m.crm == medico.crm).FirstOrDefault() != null)
             {
                 return EndPointReturn.Retornar(context, "Médico com CRM " + medico.crm + " já cadastrado no sistema!", 400);
             }
             var aux = medico.especialidade.id;
-            medico.especialidade =  BaseDeDados.Especialidades.Find(medico.especialidade.id);
+            medico.especialidade = BaseDeDados.Especialidades.Where(e => e.id == medico.especialidade.id && e.ativo == true).FirstOrDefault();
             if (medico.especialidade == null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade com id "+ aux + " não encontrada", 418);
+                return EndPointReturn.Retornar(context, "Especialidade com id "+ aux + " não encontrada ou não ativa", 418);
             }
 
             string temp = medico.ehNulo();
@@ -87,6 +88,7 @@ public class MedicoRoutes
     {
         try
         {
+            
             var medico = BaseDeDados.Medicos.Find(id);
             if (medico == null)
             {
@@ -108,7 +110,8 @@ public class MedicoRoutes
             }
 
             var aux = medicoAtualizado.especialidade.id;
-            medicoAtualizado.especialidade = BaseDeDados.Especialidades.Find(medicoAtualizado.especialidade.id);
+            BaseDeDados.Entry(medico).Reference(m => m.especialidade).Load();
+            medicoAtualizado.especialidade = BaseDeDados.Especialidades.Where(e => e.id == medico.especialidade.id && e.ativo == true).FirstOrDefault();
             if (medicoAtualizado.especialidade == null)
             {
                 return EndPointReturn.Retornar(context, "Especialidade com id '" + aux + "' não encontrada", 418);
@@ -117,6 +120,7 @@ public class MedicoRoutes
             medico.email = medicoAtualizado.email;
             medico.crm = medicoAtualizado.crm;
             medico.especialidade = medicoAtualizado.especialidade;
+            medico.ativo = medicoAtualizado.ativo;
             BaseDeDados.SaveChanges();
 
             return EndPointReturn.Retornar(context, "Médico com id " + id + " atualizado");
@@ -137,7 +141,7 @@ public class MedicoRoutes
             {
                 return EndPointReturn.Retornar(context, "Médico com id " + id + " não encontrado", 404);
             }
-            BaseDeDados.Remove(medico);
+            medico.ativo = false;
             BaseDeDados.SaveChanges();
             return EndPointReturn.Retornar(context, "Médico com id " + id + " deletado com sucesso");
         }
