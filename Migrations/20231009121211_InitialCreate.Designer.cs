@@ -11,7 +11,7 @@ using Trabalho;
 namespace Trabalho_WEB_API_C_.Migrations
 {
     [DbContext(typeof(BaseDeDados))]
-    [Migration("20231007201755_InitialCreate")]
+    [Migration("20231009121211_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool?>("ativo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -68,6 +71,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("ativo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("crm")
@@ -96,6 +102,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("ativo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("cpf")
@@ -128,6 +137,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("ativo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("convenio")

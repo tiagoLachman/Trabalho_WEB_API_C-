@@ -53,6 +53,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool?>("ativo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -66,6 +69,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("ativo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("crm")
@@ -94,6 +100,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("ativo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("cpf")
@@ -126,6 +135,9 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("ativo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("convenio")

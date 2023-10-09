@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"asd2\",\r\n    \"email\":\"asd\",\r\n    \"cpf\":\"asd\",\r\n    \"endereco\":\"asd\",\r\n    \"plano\":{\r\n        \"id\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"nome\":\"asd2\",\r\n    \"email\":\"asd\",\r\n    \"cpf\":\"asdc\",\r\n    \"endereco\":\"asd\",\r\n    \"plano\":{\r\n        \"id\": 1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -85,7 +85,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"Uélington\",\r\n    \"email\":\"donoDoMoro@yahoo.com.br\",\r\n    \"cpf\":\"j\",\r\n    \"endereco\":\"Favela do boqueirão\",\r\n    \"plano\":{\r\n        \"id\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"nome\":\"Uélingtog\",\r\n    \"email\":\"donoDoMoro@yahoo.com.br\",\r\n    \"cpf\":\"j1\",\r\n    \"endereco\":\"Favela do boqueirão\",\r\n    \"plano\":{\r\n        \"id\": 2\r\n    },\r\n    \"ativo\":true\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -177,7 +177,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"convenio\":\"unymed123e\",\r\n    \"desconto\":10.0\r\n}",
+							"raw": "{\r\n    \"convenio\":\"asd\",\r\n    \"desconto\":10.0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -203,7 +203,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"\",\r\n    \"email\":\"\",\r\n    \"cpf\":\"\",\r\n    \"endereco\":\"\"\r\n}",
+							"raw": "{\r\n    \"convenio\":\"asd\",\r\n    \"desconto\": 10.0,\r\n    \"ativo\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,7 +359,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"\",\r\n    \"email\":\"\",\r\n    \"cpf\":\"\",\r\n    \"endereco\":\"\"\r\n}",
+							"raw": "{\r\n    \"medico\":{\r\n        \"id\":1\r\n    },\r\n    \"paciente\":{\r\n        \"id\":1\r\n    },\r\n    \"data\":\"2023-10-07T16:00:00.000Z\",\r\n    \"valor\":130.20\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -367,12 +367,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{locallink}}/agendamento",
+							"raw": "{{locallink}}/agendamento/1",
 							"host": [
 								"{{locallink}}"
 							],
 							"path": [
-								"agendamento"
+								"agendamento",
+								"1"
 							]
 						}
 					},
@@ -476,7 +477,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"dsa\",\r\n    \"email\":\"asd\",\r\n    \"crm\":\"321\",\r\n    \"especialidade\":{\r\n        \"id\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"nome\":\"dsa\",\r\n    \"email\":\"asd\",\r\n    \"crm\":\"321\",\r\n    \"especialidade\":{\r\n        \"id\": 1\r\n    },\r\n    \"ativo\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -594,7 +595,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\":\"uro\"\r\n}",
+							"raw": "{\r\n    \"nome\":\"uro\",\r\n    \"ativo\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

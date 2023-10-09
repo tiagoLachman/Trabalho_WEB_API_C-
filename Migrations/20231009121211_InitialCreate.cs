@@ -15,7 +15,8 @@ namespace Trabalho_WEB_API_C_.Migrations
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    nome = table.Column<string>(type: "TEXT", nullable: false)
+                    nome = table.Column<string>(type: "TEXT", nullable: false),
+                    ativo = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,7 +30,8 @@ namespace Trabalho_WEB_API_C_.Migrations
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     convenio = table.Column<string>(type: "TEXT", nullable: false),
-                    desconto = table.Column<float>(type: "REAL", nullable: false)
+                    desconto = table.Column<float>(type: "REAL", nullable: false),
+                    ativo = table.Column<bool>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,6 +47,7 @@ namespace Trabalho_WEB_API_C_.Migrations
                     nome = table.Column<string>(type: "TEXT", nullable: false),
                     email = table.Column<string>(type: "TEXT", nullable: false),
                     crm = table.Column<string>(type: "TEXT", nullable: false),
+                    ativo = table.Column<bool>(type: "INTEGER", nullable: true),
                     especialidadeid = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -68,6 +71,7 @@ namespace Trabalho_WEB_API_C_.Migrations
                     email = table.Column<string>(type: "TEXT", nullable: false),
                     cpf = table.Column<string>(type: "TEXT", nullable: false),
                     endereco = table.Column<string>(type: "TEXT", nullable: false),
+                    ativo = table.Column<bool>(type: "INTEGER", nullable: true),
                     planoid = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
