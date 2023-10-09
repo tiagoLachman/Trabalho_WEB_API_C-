@@ -11,7 +11,9 @@ public class PlanoRoutes
         try
         {
             var planos = BaseDeDados.Planos.ToList();
-
+            if(planos.Count == 0) {
+                return EndPointReturn.Retornar(context, "Nenhum plano cadastrado!", 404);
+            }
             return EndPointReturn.Retornar(context, planos);
         }
         catch (Exception e)
@@ -28,7 +30,7 @@ public class PlanoRoutes
             var plano = BaseDeDados.Planos.Find(id);
             if (plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Plano com id " + id + " não encontrado", 404);
             }
 
             return EndPointReturn.Retornar(context, plano, 404);
@@ -50,12 +52,12 @@ public class PlanoRoutes
             }
             if (BaseDeDados.Planos.Where(p => p.convenio == plano.convenio).FirstOrDefault() != null)
             {
-                return EndPointReturn.Retornar(context, "Plano já cadastrado", 400);
+                return EndPointReturn.Retornar(context, "Plano com convenio '" + plano.convenio + "' já está cadastrado no sistema! Tente outro nome", 400);
             }
             BaseDeDados.Planos.Add(plano);
             BaseDeDados.SaveChanges();
             plano = BaseDeDados.Planos.Find(plano.id);
-            return EndPointReturn.Retornar(context, "Plano cadastrada");
+            return EndPointReturn.Retornar(context, "Plano cadastrado", 201);
         }
         catch (Exception e)
         {
@@ -76,7 +78,7 @@ public class PlanoRoutes
             var plano = BaseDeDados.Planos.Find(id);
             if (plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Plano com id " + id + " não encontrado", 404);
             }
             
             if (
@@ -84,7 +86,8 @@ public class PlanoRoutes
                 planoAtualizado.convenio != plano.convenio
             )
             {
-                return EndPointReturn.Retornar(context, "Plano já cadastrado", 400);
+                return EndPointReturn.Retornar(context, "Plano com convenio '" + plano.convenio + "' já está cadastrado no sistema! Tente outro nome", 400);
+
             }
             
 
@@ -93,7 +96,7 @@ public class PlanoRoutes
             plano.desconto = planoAtualizado.desconto;
             BaseDeDados.SaveChanges();
 
-            return EndPointReturn.Retornar(context, "Plano atualizado");
+            return EndPointReturn.Retornar(context, "Plano com id " + id + " atualizado");
         }
         catch (Exception e)
         {
@@ -109,11 +112,11 @@ public class PlanoRoutes
             var plano = BaseDeDados.Planos.Find(id);
             if (plano == null)
             {
-                return EndPointReturn.Retornar(context, "Plano não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Plano com id " + id + " não encontrado", 404);
             }
             BaseDeDados.Remove(plano);
             BaseDeDados.SaveChanges();
-            return EndPointReturn.Retornar(context, "Plano deletado com sucesso");
+            return EndPointReturn.Retornar(context, "Plano com id " + id + " deletado com sucesso");
         }
         catch (Exception e)
         {
