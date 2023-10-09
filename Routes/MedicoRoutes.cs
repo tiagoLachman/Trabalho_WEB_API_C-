@@ -16,6 +16,10 @@ public class MedicoRoutes
             {
                 BaseDeDados.Entry(medico).Reference(m => m.especialidade).Load();
             }
+            if(medicos.Count == 0){
+                return EndPointReturn.Retornar(context, "Nenhum Medico cadastrado!!", 404);
+
+            }
 
             return EndPointReturn.Retornar(context, medicos);
         }
@@ -33,7 +37,7 @@ public class MedicoRoutes
             var medico = BaseDeDados.Medicos.Find(id);
             if (medico == null)
             {
-                return EndPointReturn.Retornar(context, "Médico não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Médico com id " + id + " não encontrado", 404);
             }
             BaseDeDados.Entry(medico).Reference(m => m.especialidade).Load();
 
@@ -52,13 +56,13 @@ public class MedicoRoutes
         {
             if (BaseDeDados.Medicos.Where(m => m.crm == medico.crm).FirstOrDefault() != null)
             {
-                return EndPointReturn.Retornar(context, "Médico já cadastrado", 400);
+                return EndPointReturn.Retornar(context, "Médico com CRM " + medico.crm + " já cadastrado no sistema!", 400);
             }
-
-            medico.especialidade = BaseDeDados.Especialidades.Find(medico.especialidade.id);
+            var aux = medico.especialidade.id;
+            medico.especialidade =  BaseDeDados.Especialidades.Find(medico.especialidade.id);
             if (medico.especialidade == null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade do médico não encontrada", 418);
+                return EndPointReturn.Retornar(context, "Especialidade com id "+ aux + " não encontrada", 418);
             }
 
             BaseDeDados.Medicos.Add(medico);
@@ -68,7 +72,7 @@ public class MedicoRoutes
         }
         catch (Exception e)
         {
-            return EndPointReturn.Retornar(context, e.Message, 500);
+            return EndPointReturn.Retornar(context,"DEO MERDA AQ " + e.Message, 500);
         }
     });
 
@@ -80,7 +84,7 @@ public class MedicoRoutes
             var medico = BaseDeDados.Medicos.Find(id);
             if (medico == null)
             {
-                return EndPointReturn.Retornar(context, "Médico não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Médico com id " + id + " não encontrado", 404);
             }
 
             if (
@@ -88,7 +92,7 @@ public class MedicoRoutes
                 medicoAtualizado.crm != medico.crm
             )
             {
-                return EndPointReturn.Retornar(context, "CRM já cadastrado", 400);
+                return EndPointReturn.Retornar(context, "Médico com CRM '" + medicoAtualizado.crm + "' já cadastrado no sistema!", 400);
             }
 
             string temp = medicoAtualizado.ehNulo();
@@ -97,11 +101,11 @@ public class MedicoRoutes
                 return EndPointReturn.Retornar(context, "Dados invalidos: " + temp, 400);
             }
 
-
+            var aux = medicoAtualizado.especialidade.id;
             medicoAtualizado.especialidade = BaseDeDados.Especialidades.Find(medicoAtualizado.especialidade.id);
             if (medicoAtualizado.especialidade == null)
             {
-                return EndPointReturn.Retornar(context, "Especialidade do médico não encontrada", 418);
+                return EndPointReturn.Retornar(context, "Especialidade com id '" + aux + "' não encontrada", 418);
             }
             medico.nome = medicoAtualizado.nome;
             medico.email = medicoAtualizado.email;
@@ -109,7 +113,7 @@ public class MedicoRoutes
             medico.especialidade = medicoAtualizado.especialidade;
             BaseDeDados.SaveChanges();
 
-            return EndPointReturn.Retornar(context, "Médico atualizado");
+            return EndPointReturn.Retornar(context, "Médico com id " + id + " atualizado");
         }
         catch (Exception e)
         {
@@ -125,11 +129,11 @@ public class MedicoRoutes
             var medico = BaseDeDados.Medicos.Find(id);
             if (medico == null)
             {
-                return EndPointReturn.Retornar(context, "Médico não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Médico com id " + id + " não encontrado", 404);
             }
             BaseDeDados.Remove(medico);
             BaseDeDados.SaveChanges();
-            return EndPointReturn.Retornar(context, "Médico deletado com sucesso");
+            return EndPointReturn.Retornar(context, "Médico com id " + id + " deletado com sucesso");
         }
         catch (Exception e)
         {
