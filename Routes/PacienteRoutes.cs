@@ -18,6 +18,11 @@ public class PacienteRoutes
                 BaseDeDados.Entry(paciente).Reference(p => p.plano).Load();
             }
 
+            if (pacientes.Count == 0)
+            {
+                return EndPointReturn.Retornar(context, "Nenhum paciente cadastrado!", 404);
+            }
+
             return EndPointReturn.Retornar(context, pacientes);
         }
         catch (Exception e)
@@ -26,7 +31,7 @@ public class PacienteRoutes
         }
     });
 
-        //listar paciente especifico (por email)
+        //listar paciente especifico (por id)
         app.MapGet("/paciente/{id}", (HttpContext context, BaseDeDados BaseDeDados, int id) =>
     {
         try
@@ -34,10 +39,10 @@ public class PacienteRoutes
             var paciente = BaseDeDados.Pacientes.Find(id);
             if (paciente == null)
             {
-                return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Paciente com id " + id + " não encontrado", 404);
             }
             BaseDeDados.Entry(paciente).Reference(p => p.plano).Load();
-            return EndPointReturn.Retornar(context, paciente, 404);
+            return EndPointReturn.Retornar(context, paciente);
         }
         catch (Exception e)
         {
@@ -52,7 +57,7 @@ public class PacienteRoutes
         {
             if (BaseDeDados.Pacientes.Where(p => p.cpf == paciente.cpf).FirstOrDefault() != null)
             {
-                return EndPointReturn.Retornar(context, "Paciente já cadastrado", 400);
+                return EndPointReturn.Retornar(context, "Paciente com CPF '" + paciente.cpf + "' já cadastrado", 400);
             }
 
             paciente.plano = BaseDeDados.Planos.Find(paciente.plano.id);
@@ -80,7 +85,7 @@ public class PacienteRoutes
             var paciente = BaseDeDados.Pacientes.Find(id);
             if (paciente == null)
             {
-                return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Paciente com id " + id + " não encontrado", 404);
             }
 
             if (
@@ -88,7 +93,7 @@ public class PacienteRoutes
                 pacienteAtualizado.cpf != paciente.cpf
             )
             {
-                return EndPointReturn.Retornar(context, "CPF já cadastrado", 400);
+                return EndPointReturn.Retornar(context, "Paciente com CPF '" + pacienteAtualizado.cpf + "' já cadastrado", 400);
             }
 
             string temp = pacienteAtualizado.ehNulo();
@@ -110,7 +115,7 @@ public class PacienteRoutes
             paciente.cpf = pacienteAtualizado.cpf;
             BaseDeDados.SaveChanges();
 
-            return EndPointReturn.Retornar(context, "Paciente atualizado");
+            return EndPointReturn.Retornar(context, "Paciente com id " + id + " atualizado");
         }
         catch (Exception e)
         {
@@ -126,11 +131,11 @@ public class PacienteRoutes
             var paciente = BaseDeDados.Pacientes.Find(id);
             if (paciente == null)
             {
-                return EndPointReturn.Retornar(context, "Paciente não encontrado", 404);
+                return EndPointReturn.Retornar(context, "Paciente com id " + id + " não encontrado", 404);
             }
             BaseDeDados.Remove(paciente);
             BaseDeDados.SaveChanges();
-            return EndPointReturn.Retornar(context, "Paciente deletado com sucesso");
+            return EndPointReturn.Retornar(context, "Paciente com id " + id + " deletado com sucesso");
         }
         catch (Exception e)
         {
