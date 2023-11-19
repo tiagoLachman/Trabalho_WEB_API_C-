@@ -1,0 +1,48 @@
+async function listarPlanos() {
+    const response = await fetch(`${baseURL}/planos`);
+    const data = await response.json();
+    document.getElementById('resultadoListagem').innerHTML = JSON.stringify(data);
+}
+
+async function listarPorPlanoId() {
+    const idPlano = document.getElementById('idPlano').value;
+    const response = await fetch(`${baseURL}/plano/${idPlano}`);
+    const data = await response.json();
+    document.getElementById('resultadoPorId').innerHTML = JSON.stringify(data);
+}
+
+async function cadastrarPlano() {
+    const nomePlano = document.getElementById('nomePlano').value;
+    const response = await fetch(`${baseURL}/plano`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome: nomePlano })
+    });
+    const data = await response.json();
+    document.getElementById('resultadoCadastro').innerHTML = JSON.stringify(data);
+}
+
+async function atualizarPlano() {
+    const idAtualizar = document.getElementById('idAtualizar').value;
+    const nomeAtualizado = document.getElementById('nomeAtualizado').value;
+    const response = await fetch(`${baseURL}/plano/${idAtualizar}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome: nomeAtualizado })
+    });
+    const data = await response.json();
+    document.getElementById('resultadoAtualizacao').innerHTML = JSON.stringify(data);
+}
+
+async function deletarPlano() {
+    const idDeletar = document.getElementById('idDeletar').value;
+    const response = await fetch(`${baseURL}/plano/${idDeletar}`, {
+        method: 'DELETE'
+    });
+    const data = await response.json();
+    document.getElementById('resultadoDelecao').innerHTML = JSON.stringify(data);
+}

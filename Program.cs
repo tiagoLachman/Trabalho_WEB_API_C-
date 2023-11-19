@@ -313,9 +313,11 @@ namespace Trabalho
             var builder = WebApplication.CreateBuilder(args);
 
             var connectionString = builder.Configuration.GetConnectionString("Consultorio") ?? "Data Source=Consultorio.db";
+            builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
             builder.Services.AddSqlite<BaseDeDados>(connectionString);
 
             var app = builder.Build();
+            app.UseCors();
 
             PacienteRoutes.CreateRoutes(app);
             MedicoRoutes.CreateRoutes(app);

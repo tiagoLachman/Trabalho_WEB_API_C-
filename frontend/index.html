@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <title>Consultorio</title>
+</head>
+
+<body>
+
+    <!--Agendamentos-->
+
+    <h2>Listar Todos os Agendamentos</h2>
+    <button onclick="listarAgendamentos()">Listar Agendamentos</button>
+    <div id="resultadoListagemAgendamento"></div>
+
+    <h2>Listar Agendamentos por Médico</h2>
+    <label for="idMedicoAgendamento">ID do Médico:</label>
+    <input type="text" id="idMedicoAgendamento">
+    <button onclick="listarPorMedico()">Listar por Médico</button>
+    <div id="resultadoPorMedico"></div>
+
+    <h2>Listar Agendamentos por Paciente</h2>
+    <label for="idPaciente">ID do Paciente:</label>
+    <input type="text" id="idPaciente">
+    <button onclick="listarPorPaciente()">Listar por Paciente</button>
+    <div id="resultadoPorPaciente"></div>
+
+    <h2>Cadastrar Novo Agendamento</h2>
+    <label for="pacienteId">ID do Paciente:</label>
+    <input type="text" id="pacienteId">
+    <br>
+    <label for="medicoId">ID do Médico:</label>
+    <input type="text" id="medicoId">
+    <br>
+    <label for="dataAgendamento">Data do Agendamento:</label>
+    <input type="text" id="dataAgendamento">
+    <br>
+    <button onclick="cadastrarAgendamento()">Cadastrar Agendamento</button>
+    <div id="resultadoCadastroAgendamento"></div>
+
+    <h2>Deletar Agendamento por ID</h2>
+    <label for="idAgendamentoDeletar">ID do Agendamento a Deletar:</label>
+    <input type="text" id="idAgendamentoDeletar">
+    <br>
+    <button onclick="deletarAgendamento()">Deletar Agendamento</button>
+    <div id="resultadoDelecaoAgendamento"></div>
+
+    <!--Especialidade-->
+
+    <h2>Listar Todas as Especialidades</h2>
+    <button onclick="listarEspecialidades()">Listar Especialidades</button>
+    <div id="resultadoListagemEspecialidade"></div>
+
+    <h2>Listar Especialidade por ID</h2>
+    <label for="idEspecialidade">ID da Especialidade:</label>
+    <input type="text" id="idEspecialidade">
+    <button onclick="listarPorEspecialidadeId()">Listar por ID</button>
+    <div id="resultadoPorIdEspecialidade"></div>
+
+    <h2>Cadastrar Nova Especialidade</h2>
+    <label for="nomeEspecialidade">Nome da Especialidade:</label>
+    <input type="text" id="nomeEspecialidade">
+    <button onclick="cadastrarEspecialidade()">Cadastrar</button>
+    <div id="resultadoCadastroEspecialidade"></div>
+
+    <h2>Atualizar Especialidade por ID</h2>
+    <label for="idAtualizar">ID da Especialidade:</label>
+    <input type="text" id="idAtualizar">
+    <label for="nomeAtualizado">Novo Nome:</label>
+    <input type="text" id="nomeAtualizado">
+    <button onclick="atualizarEspecialidade()">Atualizar</button>
+    <div id="resultadoAtualizacaoEspecialidade"></div>
+
+    <h2>Deletar Especialidade por ID</h2>
+    <label for="idDeletar">ID da Especialidade:</label>
+    <input type="text" id="idDeletar">
+    <button onclick="deletarEspecialidade()">Deletar</button>
+    <div id="resultadoDelecaoEspecialidade"></div>
+
+    <!--Medicos-->
+    <h2>Listar Todos os Medicos</h2>
+    <button onclick="listarMedicos()">Listar Medicos</button>
+    <div id="listaMedicos"></div>
+
+    <h2>Buscar Medico por ID</h2>
+    <label for="idMedico">ID do Medico:</label>
+    <input type="text" id="idMedico">
+    <button onclick="buscarMedicoPorId()">Buscar Medico</button>
+    <div id="infoMedico"></div>
+
+    <h2>Cadastrar Novo Medico</h2>
+    <label for="nomeMedico">Nome do Medico:</label>
+    <input type="text" id="nomeMedico">
+    <br>
+    <label for="emailMedico">Email do Medico:</label>
+    <input type="text" id="emailMedico">
+    <br>
+    <label for="crmMedico">CRM do Medico:</label>
+    <input type="text" id="crmMedico">
+    <br>
+    <label for="especialidadeId">ID da Especialidade:</label>
+    <input type="text" id="especialidadeId">
+    <br>
+    <button onclick="cadastrarMedico()">Cadastrar Medico</button>
+    <div id="resultadoCadastroMedico"></div>
+
+    <h2>Atualizar Medico por ID</h2>
+    <label for="idMedicoAtualizar">ID do Medico a Atualizar:</label>
+    <input type="text" id="idMedicoAtualizar">
+    <button onclick="atualizarMedico()">Atualizar Medico</button>
+    <div id="resultadoAtualizacaoMedico"></div>
+
+    <h2>Deletar Medico por ID</h2>
+    <label for="idMedicoDeletar">ID do Medico a Deletar:</label>
+    <input type="text" id="idMedicoDeletar">
+    <button onclick="deletarMedico()">Deletar Medico</button>
+    <div id="resultadoDelecaoMedico"></div>
+
+    <!--Pacientes-->
+    <h2>Listar Todos os Pacientes</h2>
+    <button onclick="listarPacientes()">Listar Pacientes</button>
+    <div id="listaPacientes"></div>
+
+    <h2>Buscar Paciente por ID</h2>
+    <label for="idPaciente">ID do Paciente:</label>
+    <input type="text" id="idPaciente">
+    <button onclick="buscarPacientePorId()">Buscar Paciente</button>
+    <div id="infoPaciente"></div>
+
+    <h2>Cadastrar Novo Paciente</h2>
+    <label for="nomePaciente">Nome do Paciente:</label>
+    <input type="text" id="nomePaciente">
+    <br>
+    <label for="emailPaciente">Email do Paciente:</label>
+    <input type="text" id="emailPaciente">
+    <br>
+    <label for="cpfPaciente">CPF do Paciente:</label>
+    <input type="text" id="cpfPaciente">
+    <br>
+    <label for="enderecoPaciente">Endereco do Paciente:</label>
+    <input type="text" id="enderecoPaciente">
+    <br>
+    <label for="planoId">ID do Plano:</label>
+    <input type="text" id="planoId">
+    <br>
+    <button onclick="cadastrarPaciente()">Cadastrar Paciente</button>
+    <div id="resultadoCadastroPaciente"></div>
+
+    <h2>Atualizar Paciente por ID</h2>
+    <label for="idPacienteAtualizar">ID do Paciente a Atualizar:</label>
+    <input type="text" id="idPacienteAtualizar">
+    <button onclick="atualizarPaciente()">Atualizar Paciente</button>
+    <div id="resultadoAtualizacaoPaciente"></div>
+
+    <h2>Deletar Paciente por ID</h2>
+    <label for="idPacienteDeletar">ID do Paciente a Deletar:</label>
+    <input type="text" id="idPacienteDeletar">
+    <button onclick="deletarPaciente()">Deletar Paciente</button>
+    <div id="resultadoDelecaoPaciente"></div>
+
+    <!--Plano-->
+
+    <h2>Listar Todas as Planos</h2>
+    <button onclick="listarPlanos()">Listar Planos</button>
+    <div id="resultadoListagemPlano"></div>
+
+    <h2>Listar Plano por ID</h2>
+    <label for="idPlano">ID da Plano:</label>
+    <input type="text" id="idPlano">
+    <button onclick="listarPorId()">Listar por ID</button>
+    <div id="resultadoPorIdPlano"></div>
+
+    <h2>Cadastrar Nova Plano</h2>
+    <label for="convenioPlano">Convenio do Plano:</label>
+    <input type="text" id="convenioPlano">
+    <label for="descontoPlano">Desconto do Plano:</label>
+    <input type="number" id="descontoPlano">
+    <button onclick="cadastrarPlano()">Cadastrar</button>
+    <div id="resultadoCadastroPlano"></div>
+
+    <h2>Atualizar Plano por ID</h2>
+    <label for="idAtualizar">ID do Plano:</label>
+    <input type="text" id="idAtualizar">
+    <label for="convenioAtualizado">Novo Convenio:</label>
+    <input type="text" id="convenioAtualizado">
+    <label for="descontoAtualizado">Novo Desconto:</label>
+    <input type="number" id="descontoAtualizado">
+    <button onclick="atualizarPlano()">Atualizar</button>
+    <div id="resultadoAtualizacaoPlano"></div>
+
+    <h2>Deletar Plano por ID</h2>
+    <label for="idDeletar">ID da Plano:</label>
+    <input type="text" id="idDeletar">
+    <button onclick="deletarPlano()">Deletar</button>
+    <div id="resultadoDelecaoPlano"></div>
+
+    
+</body>
+
+</html>
