@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>T2 Programação Visual</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div class="form">
+			<input id="nome-completo"   placeholder="Nome Completo"      type="text"     onblur="validaNome(this.id)"/>
+			<input id="data-nascimento" placeholder="Data de Nascimento" type="date"     onblur="validaData(this.id)"/>
+			<input id="cpf"             placeholder="CPF"                type="number"/>
+			<input id="cep"             placeholder="CEP"                type="number"   onblur="getLogradouro()"/>
+			<input id="logradouro"      placeholder="Logradouro"         type="text"/>
+			<div style="display:flex;">
+				<input id="numero"      placeholder="Número"             type="number"   style="margin-right:5px;"/>
+				<input id="complemento" placeholder="Complemento"        type="text"     style="margin-left:5px;"/>
+			</div>
+			<input id="telefone"        placeholder="Telefone"           type="tel"      oninput="maskPhone(this.id)">
+			<input id="email"           placeholder="Email"              type="email"/>
+			<input id="senha"           placeholder="Senha"              type="password" onblur="validaSenha(this.id)"/>
+			<input id="confirma-senha"  placeholder="Confirmar Senha"    type="password" onblur="confirmaSenha(this.id)"/>
+			<button onclick="cadastrar()">Cadastrar</button>
+			<p>Ir para <a href="listar.html">lista de usuários</a></p>
+		</div>
+	</body>
+</html>
+
